@@ -1,0 +1,3 @@
+CPPFLAGS += -std=c++17
+CPPFLAGS += -I../include
+LDFLAGS += -lX11 -lGL -lpthread -lpng -lstdc++fs 
