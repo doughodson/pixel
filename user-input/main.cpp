@@ -24,7 +24,15 @@ public:
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-      // Erase previous frame
+      // handle user input
+      if (GetKey(olc::Key::LEFT).bHeld) fBatPos -= 1.0f;
+      if (GetKey(olc::Key::RIGHT).bHeld) fBatPos += 1.0f;
+
+      // constrain bat position (paddle)
+      if (fBatPos < 11.0f) fBatPos = 11.0f;
+		if (fBatPos + fBatWidth > float(ScreenWidth()) - 10.0f) fBatPos = float(ScreenWidth()) - 10.0f - fBatWidth;
+
+      // erase previous frame
       Clear(olc::DARK_BLUE);
 
       // draw boundary
