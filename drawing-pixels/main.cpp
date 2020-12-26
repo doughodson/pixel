@@ -18,7 +18,14 @@ public:
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		return true;
+      // Erase previous frame
+      Clear(olc::DARK_BLUE);
+
+      // Draw Boundary
+      DrawLine(10, 10, ScreenWidth() - 10, 10, olc::YELLOW);    // top edge
+      DrawLine(10, 10, 10, ScreenHeight() - 10, olc::YELLOW);   // left edge
+      DrawLine(ScreenWidth() - 10, 10, ScreenWidth() - 10, ScreenHeight() - 10, olc::YELLOW);  // right edge
+      return true;
 	}
 };
 
