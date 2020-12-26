@@ -33,6 +33,11 @@ public:
       if (fBatPos < 11.0f) fBatPos = 11.0f;
 		if (fBatPos + fBatWidth > float(ScreenWidth()) - 10.0f) fBatPos = float(ScreenWidth()) - 10.0f - fBatWidth;
 
+      // cheat! moving the ball with mouse
+      if (GetMouse(0).bHeld) {
+         vBall = { float(GetMouseX()), float(GetMouseY()) };
+      }
+
       // erase previous frame
       Clear(olc::DARK_BLUE);
 
