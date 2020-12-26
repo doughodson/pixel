@@ -13,6 +13,7 @@ public:
 private:
    float fBatPos = 20.0f;
 	float fBatWidth = 40.0f;
+	float fBatSpeed = 0.8f;
 
    olc::vf2d vBall = {200.0f, 200.0f };
 
@@ -25,8 +26,8 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override
 	{
       // handle user input
-      if (GetKey(olc::Key::LEFT).bHeld) fBatPos -= 1.0f;
-      if (GetKey(olc::Key::RIGHT).bHeld) fBatPos += 1.0f;
+      if (GetKey(olc::Key::LEFT).bHeld) fBatPos -= fBatSpeed;
+      if (GetKey(olc::Key::RIGHT).bHeld) fBatPos += fBatSpeed;
 
       // constrain bat position (paddle)
       if (fBatPos < 11.0f) fBatPos = 11.0f;
