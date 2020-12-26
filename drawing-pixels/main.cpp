@@ -10,6 +10,12 @@ public:
 		sAppName = "TUTORIAL - BreakOut Clone";
 	}
 
+private:
+   float fBatPos = 20.0f;
+	float fBatWidth = 40.0f;
+
+   olc::vf2d vBall = {200.0f, 200.0f };
+
 public:
 	bool OnUserCreate() override
 	{
@@ -21,10 +27,17 @@ public:
       // Erase previous frame
       Clear(olc::DARK_BLUE);
 
-      // Draw Boundary
+      // draw boundary
       DrawLine(10, 10, ScreenWidth() - 10, 10, olc::YELLOW);    // top edge
       DrawLine(10, 10, 10, ScreenHeight() - 10, olc::YELLOW);   // left edge
       DrawLine(ScreenWidth() - 10, 10, ScreenWidth() - 10, ScreenHeight() - 10, olc::YELLOW);  // right edge
+
+      // draw bat
+	   FillRect(int(fBatPos), ScreenHeight() - 20, int(fBatWidth), 10, olc::GREEN);
+
+	   // draw ball
+      FillCircle(vBall, 5, olc::CYAN);
+
       return true;
 	}
 };
