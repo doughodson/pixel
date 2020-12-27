@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <list>
 
 class BreakOut : public olc::PixelGameEngine
 {
@@ -31,6 +32,16 @@ private:
 
    std::unique_ptr<olc::Sprite> sprFragment;
    std::unique_ptr<olc::Decal> decFragment;
+
+   struct sFragment {
+      olc::vf2d pos;
+      olc::vf2d vel;
+      float fAngle;
+      float fTime;
+      olc::Pixel colour;
+   };
+
+   std::list<sFragment> listFragments;
 
 public:
    bool OnUserCreate() override
