@@ -33,14 +33,6 @@ public:
    bool OnUserCreate() override
    {
       blocks = std::make_unique<int[]>(24*30);
-      for (int y=0; y<30; y++) {
-         for( int x=0; x < 24; x++) {
-            if (x == 0 || y == 0 || x == 23)
-               blocks[y*24+x] = 10;
-            else
-               blocks[y*24+x] = 0;
-         }
-      }
 
       for (int y = 0; y < 30; y++) {
          for (int x = 0; x < 24; x++) {
