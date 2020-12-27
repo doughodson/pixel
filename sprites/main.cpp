@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <memory>
 
 class BreakOut : public olc::PixelGameEngine
 {
@@ -22,6 +23,9 @@ private:
    olc::vf2d vBallVel = {200.0f, -100.0f};
 
    float fBallRadius = 5.0f;
+
+   olc::vi2d vBlockSize = { 16, 16 };
+   std::unique_ptr<int[]> blocks;
 
 public:
 	bool OnUserCreate() override
