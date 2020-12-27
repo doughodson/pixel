@@ -29,6 +29,9 @@ private:
 
    std::unique_ptr<olc::Sprite> sprTile;
 
+   std::unique_ptr<olc::Sprite> sprFragment;
+   std::unique_ptr<olc::Decal> decFragment;
+
 public:
    bool OnUserCreate() override
    {
@@ -52,6 +55,10 @@ public:
       // load sprite
       sprTile = std::make_unique<olc::Sprite>("./gfx/tut_tiles.png");
 
+      // load sprite and create decal
+      sprFragment = std::make_unique<olc::Sprite>("./gfx/tut_fragment.png");
+      decFragment = std::make_unique<olc::Decal>(sprFragment.get());
+   
       // start ball
       float fAngle = float(rand()) / float(RAND_MAX) * 2.0f * 3.14159f;
       fAngle = -0.4f;
@@ -136,7 +143,7 @@ public:
 int main()
 {
    BreakOut demo;
-   if (demo.Construct(512, 480, 2, 2, false, true))  // display size: 512x480 pixel size: 2x2 
+   if (demo.Construct(512, 480, 2, 2))  // display size: 512x480 pixel size: 2x2 
       demo.Start();
    return 0;
 }

@@ -136,7 +136,7 @@ public:
 int main()
 {
    BreakOut demo;
-   if (demo.Construct(512, 480, 2, 2, false, true))  // display size: 512x480 pixel size: 2x2 
+   if (demo.Construct(512, 480, 2, 2))  // display size: 512x480 pixel size: 2x2 
       demo.Start();
    return 0;
 }
