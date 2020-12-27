@@ -19,9 +19,9 @@ private:
    float fBatWidth = 40.0f;
    float fBatSpeed = 250.0f;
 
-   olc::vf2d vBall = {200.0f, 200.0f};
-   olc::vf2d vBallVel = {200.0f, -100.0f};
-
+   olc::vf2d vBallPos = {0.0f, 0.0f};
+   olc::vf2d vBallDir = {0.0f, 0.0f};
+   float fBallSpeed = 20.0f;
    float fBallRadius = 5.0f;
 
    olc::vi2d vBlockSize = { 16, 16 };  // tile: 16x16 display 512/16 x 480/16 (32x30)
@@ -51,11 +51,57 @@ public:
       }
       // load sprite
       sprTile = std::make_unique<olc::Sprite>("./gfx/tut_tiles.png");
+
+      // start ball
+      float fAngle = float(rand()) / float(RAND_MAX) * 2.0f * 3.14159f;
+      fAngle = -0.4f;
+      vBallDir = { std::cos(fAngle), std::sin(fAngle) };
+      vBallPos = { 12.5f, 15.5f };
       return true;
    }
 
    bool OnUserUpdate(float fElapsedTime) override
    {
+      // A better collision detection
+      // calculate where ball should be, if no collision
+      olc::vf2d vPotentialBallPos = vBallPos + vBallDir * fBallSpeed * fElapsedTime;
+
+      // test for hits 4 points around ball
+		olc::vf2d vTileBallRadialDims = { fBallRadius / vBlockSize.x, fBallRadius / vBlockSize.y };
+
+      auto TestResolveCollisionPoint = [&](const olc::vf2d& point) 
+      {
+         olc::vi2d vTestPoint = vPotentialBallPos + vTileBallRadialDims * point;
+
+         auto& tile = blocks[vTestPoint.y * 24 + vTestPoint.x];
+         if (tile == 0) {
+            // do nothing, no collision
+            return false;
+         } else {
+            // ball has collided with a tile
+            bool bTileHit = tile < 10;
+            if (bTileHit) tile--;
+
+            // collision response
+            if (point.x == 0.0f) vBallDir.y *= -1.0f;				
+            if (point.y == 0.0f) vBallDir.x *= -1.0f;
+            return bTileHit;
+         }
+      };
+
+      bool bHasHitTile = false;
+      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, -1));
+      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, +1));
+      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(-1, 0));
+      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(+1, 0));		
+
+      // fake floor
+      if (vBallPos.y > 20.0f) vBallDir.y *= -1.0f;
+
+      // update ball position with modified direction
+      vBallPos += vBallDir * fBallSpeed * fElapsedTime;
+
+
       // draw screen
       Clear(olc::DARK_BLUE);
       SetPixelMode(olc::Pixel::MASK);  // don't draw pixels which has any transparency
@@ -80,6 +126,9 @@ public:
          }
       }
       SetPixelMode(olc::Pixel::NORMAL); // draw all pixels
+
+      // draw ball
+      FillCircle(vBallPos * vBlockSize, fBallRadius, olc::CYAN);
       return true;
    }
 };
