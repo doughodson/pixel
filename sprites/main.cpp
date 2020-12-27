@@ -24,7 +24,7 @@ private:
 
    float fBallRadius = 5.0f;
 
-   olc::vi2d vBlockSize = { 16, 16 };
+   olc::vi2d vBlockSize = { 16, 16 };  // tile: 16x16 display 512/16 x 480/16 (32x30)
    std::unique_ptr<int[]> blocks;
 
    std::unique_ptr<olc::Sprite> sprTile;
@@ -32,7 +32,7 @@ private:
 public:
    bool OnUserCreate() override
    {
-      blocks = std::make_unique<int[]>(24*30);
+      blocks = std::make_unique<int[]>(24*30);  // playfield: 24x30 (inside: 32x30)
 
       for (int y = 0; y < 30; y++) {
          for (int x = 0; x < 24; x++) {
@@ -87,7 +87,7 @@ public:
 int main()
 {
    BreakOut demo;
-   if (demo.Construct(512, 480, 2, 2, false, true))
+   if (demo.Construct(512, 480, 2, 2, false, true))  // display size: 512x480 pixel size: 2x2 
       demo.Start();
    return 0;
 }
