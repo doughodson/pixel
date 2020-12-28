@@ -63,10 +63,10 @@ public:
                blocks[y * 24 + x] = 3;
 	      }
       }
-      // load sprite
+      // load tile sprite
       sprTile = std::make_unique<olc::Sprite>("./gfx/tut_tiles.png");
 
-      // load sprite and create decal
+      // load fragment sprite and create decal
       sprFragment = std::make_unique<olc::Sprite>("./gfx/tut_fragment.png");
       decFragment = std::make_unique<olc::Decal>(sprFragment.get());
    
@@ -87,8 +87,7 @@ public:
       // test for hits 4 points around ball
 		olc::vf2d vTileBallRadialDims = { fBallRadius / vBlockSize.x, fBallRadius / vBlockSize.y };
 
-      auto TestResolveCollisionPoint = [&](const olc::vf2d& point) 
-      {
+      auto TestResolveCollisionPoint = [&](const olc::vf2d& point, olc::vf2d& hitpos, int& id) {
          olc::vi2d vTestPoint = vPotentialBallPos + vTileBallRadialDims * point;
 
          auto& tile = blocks[vTestPoint.y * 24 + vTestPoint.x];
@@ -98,7 +97,11 @@ public:
          } else {
             // ball has collided with a tile
             bool bTileHit = tile < 10;
-            if (bTileHit) tile--;
+            if (bTileHit) {
+               id = tile;
+               hitpos = { float(vTestPoint.x), float(vTestPoint.y) };
+               tile--;
+            }
 
             // collision response
             if (point.x == 0.0f) vBallDir.y *= -1.0f;				
@@ -108,16 +111,48 @@ public:
       };
 
       bool bHasHitTile = false;
-      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, -1));
-      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, +1));
-      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(-1, 0));
-      bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(+1, 0));		
+		olc::vf2d hitpos;
+		int hitid = 0;
+		bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, -1), hitpos, hitid);
+		bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(0, +1), hitpos, hitid);
+		bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(-1, 0), hitpos, hitid);
+		bHasHitTile |= TestResolveCollisionPoint(olc::vf2d(+1, 0), hitpos, hitid);		
+
+      if (bHasHitTile) {
+         for (int i = 0; i < 100; i++) {
+            sFragment f;
+            f.pos = { hitpos.x + 0.5f, hitpos.y + 0.5f };
+            float fAngle = float(std::rand()) / float(RAND_MAX) * 2.0f * 3.14159f;
+            float fVelocity = float(std::rand()) / float(RAND_MAX) * 10.0f;
+            f.vel = { fVelocity * std::cos(fAngle), fVelocity * std::sin(fAngle) };
+            f.fAngle = fAngle;
+            f.fTime = 3.0f;
+            if (hitid == 1)	f.colour = olc::RED;
+            if (hitid == 2)	f.colour = olc::GREEN;
+            if (hitid == 3)	f.colour = olc::YELLOW;
+            listFragments.push_back(f);
+         }
+      }
 
       // fake floor
       if (vBallPos.y > 20.0f) vBallDir.y *= -1.0f;
 
       // update ball position with modified direction
       vBallPos += vBallDir * fBallSpeed * fElapsedTime;
+
+      // update fragments
+      for (auto& f : listFragments) {
+         f.vel += olc::vf2d(0.0f, 20.0f) * fElapsedTime;
+         f.pos += f.vel * fElapsedTime;
+         f.fAngle += 5.0f * fElapsedTime;
+         f.fTime -= fElapsedTime;
+         f.colour.a = (f.fTime / 3.0f) * 255;
+      }
+
+      // remove dead fragments
+      listFragments.erase(
+         std::remove_if(listFragments.begin(), listFragments.end(), [](const sFragment& f) { return f.fTime < 0.0f; }),
+      listFragments.end());
 
 
       // draw screen
@@ -147,6 +182,11 @@ public:
 
       // draw ball
       FillCircle(vBallPos * vBlockSize, fBallRadius, olc::CYAN);
+
+      // draw fragments
+      for (auto& f : listFragments)
+	      DrawRotatedDecal(f.pos * vBlockSize, decFragment.get(), f.fAngle, { 4, 4 }, { 1, 1 }, f.colour);
+
       return true;
    }
 };
