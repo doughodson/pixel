@@ -103,6 +103,42 @@ project "user-input"
    includedirs { PGE_IncPath }
    defines { "_CONSOLE" }
 
+project "managing-time"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "managing-time"
+   targetdir "../../managing-time"
+   debugdir "../../managing-time"
+   files {
+      "../../managing-time/**.h*",
+      "../../managing-time/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
+
+project "sprites"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "sprites"
+   targetdir "../../sprites"
+   debugdir "../../sprites"
+   files {
+      "../../sprites/**.h*",
+      "../../sprites/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
+
+project "collisions"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "collisions"
+   targetdir "../../collisions"
+   debugdir "../../collisions"
+   files {
+      "../../collisions/**.h*",
+      "../../collisions/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
+
 project "decals"
    location ("../" .. _ACTION .. "/examples/%{prj.name}")
    targetname "decals"

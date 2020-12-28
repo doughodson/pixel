@@ -146,7 +146,7 @@ public:
          f.pos += f.vel * fElapsedTime;
          f.fAngle += 5.0f * fElapsedTime;
          f.fTime -= fElapsedTime;
-         f.colour.a = (f.fTime / 3.0f) * 255;
+         f.colour.a = static_cast<uint8_t>((f.fTime / 3.0f) * 255);
       }
 
       // remove dead fragments
@@ -181,7 +181,7 @@ public:
       SetPixelMode(olc::Pixel::NORMAL); // draw all pixels
 
       // draw ball
-      FillCircle(vBallPos * vBlockSize, fBallRadius, olc::CYAN);
+      FillCircle(vBallPos * vBlockSize, static_cast<int32_t>(fBallRadius), olc::CYAN);
 
       // draw fragments
       for (auto& f : listFragments)

@@ -11,9 +11,26 @@ hello-world/hello-world.exe
 hello-world/hello-world_d.exe
 #
 drawing-pixels/drawing-pixels
+drawing-pixels/drawing-pixels.exe
+drawing-pixels/drawing-pixels_d.exe
+#
 user-input/user-input
+user-input/user-input.exe
+user-input/user-input_d.exe
+#
 managing-time/managing-time
+managing-time/managing-time.exe
+managing-time/managing-time_d.exe
+#
 sprites/sprites
+sprites/sprites.exe
+sprites/sprites_d.exe
+#
 collisions/collisions
+collisions/collisions.exe
+collisions/collisions_d.exe
+#
 decals/decals
+decals/decals.exe
+decals/decals_d.exe
 

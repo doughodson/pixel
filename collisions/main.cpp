@@ -128,7 +128,7 @@ public:
       SetPixelMode(olc::Pixel::NORMAL); // draw all pixels
 
       // draw ball
-      FillCircle(vBallPos * vBlockSize, fBallRadius, olc::CYAN);
+      FillCircle(vBallPos * vBlockSize, static_cast<int32_t>(fBallRadius), olc::CYAN);
       return true;
    }
 };
