@@ -78,3 +78,39 @@ project "hello-world"
    }
    includedirs { PGE_IncPath }
    defines { "_CONSOLE" }
+
+project "drawing-pixels"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "drawing-pixels"
+   targetdir "../../drawing-pixels"
+   debugdir "../../drawing-pixels"
+   files {
+      "../../drawing-pixels/**.h*",
+      "../../drawing-pixels/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
+
+project "user-input"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "user-input"
+   targetdir "../../user-input"
+   debugdir "../../user-input"
+   files {
+      "../../user-input/**.h*",
+      "../../user-input/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
+
+project "decals"
+   location ("../" .. _ACTION .. "/examples/%{prj.name}")
+   targetname "decals"
+   targetdir "../../decals"
+   debugdir "../../decals"
+   files {
+      "../../decals/**.h*",
+      "../../decals/**.cpp",
+   }
+   includedirs { PGE_IncPath }
+   defines { "_CONSOLE" }
