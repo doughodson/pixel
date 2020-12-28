@@ -1,7 +1,15 @@
 
 *.o
+*.ilk
+*.pdb
+
+vs2017/
+vs2019/
 
 hello-world/hello-world
+hello-world/hello-world.exe
+hello-world/hello-world_d.exe
+#
 drawing-pixels/drawing-pixels
 user-input/user-input
 managing-time/managing-time
