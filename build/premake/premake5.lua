@@ -23,13 +23,42 @@ PGE_IncPath          = PIXEL_ROOT.."include"
 print ("PIXEL Path:")
 print ("  Include   : "..PGE_IncPath)
 
+--------------------------------------------------------------------------------
+-- example applications
+--------------------------------------------------------------------------------
+PGEExamples = {
+   "hello-world",
+   "drawing-pixels",
+   "user-input",
+   "managing-time",
+   "sprites",
+   "collisions",
+   "decals",
+};
+
+--------------------------------------------------------------------------------
+-- example application project definition
+--------------------------------------------------------------------------------
+local function CreatePGEProject( projectName )
+   project( projectName )
+      kind("ConsoleApp")
+      entrypoint("mainCRTStartup")
+      location("../" .. _ACTION .. "/examples/%{prj.name}")
+      debugdir("../../"..projectName)
+      targetname(projectName)
+      targetdir("../../"..projectName)
+      files {
+         "../../"..projectName.."/**.h*",
+         "../../"..projectName.."/**.cpp",
+      }
+      includedirs { PGE_IncPath }
+      defines { "_CONSOLE" }
+end
+
 workspace "examples"
 
    -- destination directory for generated solution/project files
    location ("../" .. _ACTION)
-
-   -- create console application by default
-   kind "ConsoleApp"
 
    -- C++ code in all projects
    language "C++"
@@ -63,90 +92,10 @@ workspace "examples"
       targetsuffix "_d"
       defines { "WIN32", "_DEBUG" }
 
----------------------------------------------
--- Projects
----------------------------------------------
+--------------------------------------------------------------------------------
+-- create all example projects
+--------------------------------------------------------------------------------
+for index=1, #PGEExamples do
+   CreatePGEProject( PGEExamples[index] );
+end
 
-project "hello-world"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "hello-world"
-   targetdir "../../hello-world"
-   debugdir "../../hello-world"
-   files {
-      "../../hello-world/**.h*",
-      "../../hello-world/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "drawing-pixels"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "drawing-pixels"
-   targetdir "../../drawing-pixels"
-   debugdir "../../drawing-pixels"
-   files {
-      "../../drawing-pixels/**.h*",
-      "../../drawing-pixels/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "user-input"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "user-input"
-   targetdir "../../user-input"
-   debugdir "../../user-input"
-   files {
-      "../../user-input/**.h*",
-      "../../user-input/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "managing-time"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "managing-time"
-   targetdir "../../managing-time"
-   debugdir "../../managing-time"
-   files {
-      "../../managing-time/**.h*",
-      "../../managing-time/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "sprites"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "sprites"
-   targetdir "../../sprites"
-   debugdir "../../sprites"
-   files {
-      "../../sprites/**.h*",
-      "../../sprites/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "collisions"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "collisions"
-   targetdir "../../collisions"
-   debugdir "../../collisions"
-   files {
-      "../../collisions/**.h*",
-      "../../collisions/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
-
-project "decals"
-   location ("../" .. _ACTION .. "/examples/%{prj.name}")
-   targetname "decals"
-   targetdir "../../decals"
-   debugdir "../../decals"
-   files {
-      "../../decals/**.h*",
-      "../../decals/**.cpp",
-   }
-   includedirs { PGE_IncPath }
-   defines { "_CONSOLE" }
